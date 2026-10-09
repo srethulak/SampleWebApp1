@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A privacy-first visual risk assessment prototype.">
+  <title>PrivyLens | Visual Privacy Scanner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="PrivyLens home"><span class="brand-mark">P</span><span>PrivyLens<small>ON-DEVICE PRIVACY LAB</small></span></a>
+    <nav><a href="#scanner">Scanner</a><a href="#how-it-works">How it works</a></nav>
+    <span class="privacy-pill"><span></span> Local preview</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> VISUAL RISK ASSESSMENT</div>
+      <h1>Your images.<br><span>Your control.</span></h1>
+      <p class="hero-copy">Explore how sensitive details in images can be reviewed and masked before sharing. This prototype keeps image processing in your browser.</p>
+      <div class="hero-points"><span>✓ No account needed</span><span>✓ Local image preview</span><span>✓ Manual masking tools</span></div>
+    </section>
+
+    <section class="scanner-section" id="scanner">
+      <div class="section-heading">
+        <div><p class="section-kicker">WORKSPACE / 01</p><h2>Privacy scanner</h2></div>
+        <span class="step-label">UPLOAD → REVIEW → PROTECT</span>
+      </div>
+
+      <div class="workspace">
+        <section class="panel upload-panel">
+          <div class="panel-head"><div><span class="number">01</span><h3>Source image</h3></div><span class="status-dot">READY</span></div>
+          <input type="file" id="imageInput" accept="image/*" hidden>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose or drop an image">
+            <div class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v4h16v-4"/></svg></div>
+            <strong>Drop an image here</strong><span>or click to browse your files</span>
+            <small>PNG, JPG, WEBP · stays in this browser</small>
+            <button class="button button-dark" type="button" id="chooseBtn">Choose image</button>
+          </div>
+          <div class="preview-wrap hidden" id="previewWrap">
+            <div class="preview-toolbar"><span id="fileName">image.jpg</span><button class="text-button" id="removeBtn" type="button">Remove image ×</button></div>
+            <div class="canvas-wrap"><canvas id="imageCanvas" aria-label="Image preview with privacy masks"></canvas></div>
+            <p class="hint">Tip: select a masking tool, then drag over a sensitive area.</p>
+          </div>
+          <div class="panel-foot"><span class="mini-shield">◇</span> Images are not uploaded to a server by this demo.</div>
+        </section>
+
+        <section class="panel analysis-panel">
+          <div class="panel-head"><div><span class="number">02</span><h3>Risk review</h3></div><span class="review-badge" id="reviewBadge">WAITING</span></div>
+          <div class="empty-analysis" id="emptyAnalysis"><div class="scan-graphic"><span></span><span></span><span></span><span></span><i>⌕</i></div><strong>Ready when you are</strong><p>Choose an image to begin your privacy review.</p></div>
+          <div class="analysis-content hidden" id="analysisContent">
+            <div class="risk-score"><div><span class="muted-label">DEMO RISK INDICATOR</span><strong id="riskLevel">Review needed</strong></div><div class="score-ring" id="scoreRing"><span id="riskScore">—</span><small>/100</small></div></div>
+            <div class="risk-meter"><span id="riskMeter"></span></div>
+            <p class="disclaimer">This is a prototype indicator, not a trained AI detection result. Review the image manually.</p>
+            <div class="finding-list">
+              <div class="finding"><span class="finding-icon amber">Aa</span><div><strong>Visible text</strong><small>Check for names, IDs, addresses</small></div><span class="finding-state">Review</span></div>
+              <div class="finding"><span class="finding-icon purple">◎</span><div><strong>Faces & people</strong><small>Check for identifiable individuals</small></div><span class="finding-state">Review</span></div>
+              <div class="finding"><span class="finding-icon blue">⌖</span><div><strong>Location clues</strong><small>Check signs, badges, landmarks</small></div><span class="finding-state">Review</span></div>
+            </div>
+            <div class="toolbox">
+              <p class="muted-label">MASKING TOOL</p>
+              <div class="tool-buttons">
+                <button class="tool active" data-tool="blur" type="button">◌ Blur</button>
+                <button class="tool" data-tool="pixelate" type="button">▦ Pixelate</button>
+                <button class="tool" data-tool="solid" type="button">■ Solid mask</button>
+              </div>
+              <div class="action-row"><button class="button button-outline" id="undoBtn" type="button" disabled>Undo mask</button><button class="button button-accent" id="downloadBtn" type="button" disabled>Export protected image ↗</button></div>
+              <p class="tool-hint" id="toolHint">Drag across the image to mask a sensitive area.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <p class="prototype-note"><strong>Research prototype note:</strong> this front-end demonstrates image handling and manual redaction. It does not yet run trained face detection, OCR, location extraction, or a production risk model.</p>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading"><div><p class="section-kicker">THE PIPELINE / 02</p><h2>Privacy by design</h2></div></div>
+      <div class="steps">
+        <article class="step-card"><span>01</span><div class="step-icon">↥</div><h3>Load locally</h3><p>Select an image. The demo reads it in your browser without sending it to a backend.</p></article>
+        <article class="step-card"><span>02</span><div class="step-icon">⌕</div><h3>Review risks</h3><p>Inspect possible sensitive content such as faces, visible text, and location clues.</p></article>
+        <article class="step-card"><span>03</span><div class="step-icon">▧</div><h3>Mask & export</h3><p>Draw masks over sensitive regions and export a protected copy for review.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">P</span><span>PrivyLens<small>ON-DEVICE PRIVACY LAB</small></span></a><span>Academic prototype · Privacy-first by design</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
